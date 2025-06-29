@@ -1,29 +1,32 @@
 # CI/CD Pipeline Documentation
 
-## Workflow File Purpose
+## Purpose
 
-- **test.yml**: Runs unit tests and code quality checks (flake8) on every push and pull request.
-- **deploy.yml**: Deploys the application to AWS (e.g., EC2) on successful pushes to the `main` branch.
-- **rollback.yml** (optional): Allows manual rollback to a previous deployment version.
+This pipeline automates testing, linting, deployment, and rollback of the Python Flask app to an AWS EC2 instance.
 
-## Trigger Descriptions
+## Workflow Files
 
-- `test.yml`: triggered on `push` and `pull_request` events.
-- `deploy.yml`: triggered on `push` events to the `main` branch.
-- `rollback.yml`: triggered manually via `workflow_dispatch` with a version input.
+- **test.yml**: Runs linting (flake8) and unit tests (pytest) on each push and pull request.
+- **deploy.yml**: Deploys the app to EC2 on successful merge to `main`.
+- **rollback.yml** (optional): Manually triggered rollback to a previous commit or tag.
+
+## Triggers
+
+- `test.yml`: triggers on `push` and `pull_request`.
+- `deploy.yml`: triggers on push to `main`.
+- `rollback.yml`: triggers manually via workflow_dispatch input.
 
 ## Secrets Used
 
-- `AWS_ACCESS_KEY_ID`: AWS access key for deployment.
-- `AWS_SECRET_ACCESS_KEY`: AWS secret key for deployment.
-- (Add any other secrets like SSH keys if used.)
+- `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`: AWS credentials for deployment.
+- `EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`: SSH connection info for EC2 deployment.
 
 ## Dependency Setup
 
-- Python 3.8 is used.
-- Virtual environment is created in the workflow.
-- Required Python packages installed via `pip install -r requirements.txt`.
-- Code quality tools like `flake8` are installed and run as part of tests.
+- Python 3.8 virtual environment is created.
+- Dependencies installed from `requirements.txt`.
+- Code quality checks use flake8.
+- Testing uses pytest.
 
 ## Directory Structure
 
@@ -36,6 +39,10 @@ python-aws-cicd/
 ├── tests/
 │ └── test_app.py
 ├── requirements.txt
-├── test.yml
-├── deploy.yml
-└── rollback.yml (optional)
+├── .github/
+│ └── workflows/
+│ ├── test.yml
+│ ├── deploy.yml
+│ └── rollback.yml
+├── venv/
+└── README.md
