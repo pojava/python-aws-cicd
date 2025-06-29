@@ -7,18 +7,31 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Deploy via SSH
-      uses: appleboy/ssh-action@master
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Deploy to EC2 via SSH
+      uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.EC2_HOST }}
-        username: ec2-user
-        key: ${{ secrets.EC2_KEY }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          cd ~/python-aws-cicd
-          git pull
-          source venv/bin/activate
+          cd /home/ec2-user/python-aws-cicd
+          git pull origin main
+          source venv/bin/activate || python3 -m venv venv && source venv/bin/activate
           pip install -r requirements.txt
-          pkill -f "python src/app.py" || true
-          nohup python src/app.py > app.log 2>&1 &
+          pkill -f app.py || true
+          nohup python3 src/app.py > app.log 2>&1 &
