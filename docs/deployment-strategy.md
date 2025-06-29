@@ -1,24 +1,31 @@
-# Deployment Strategy
+# Deployment Strategy Documentation
 
 ## Branching Strategy
 
-- `main` branch: Production-ready code, triggers deployment to production EC2 instance
-- `dev` branch: Development/staging environment for testing changes before production
+- **main**: Production-ready code; triggers deployment workflow.
+- **dev**: Staging environment for testing before merging to main.
 
 ## Environment Mapping
 
-| Branch | Environment   | Deployment Target        |
-|--------|---------------|-------------------------|
-| dev    | Staging       | Staging EC2 instance    |
-| main   | Production    | Production EC2 instance |
+| Branch | Environment  | Description              |
+|--------|--------------|--------------------------|
+| main   | Production   | Live deployment on EC2   |
+| dev    | Staging      | Test environment          |
 
 ## Deployment Steps
 
-1. Push code to `main` branch
-2. GitHub Actions `deploy.yml` workflow builds, tests, and deploys to EC2
-3. EC2 instance runs Gunicorn server to serve the Flask app
+1. Developer pushes code to `dev` branch for staging testing.
+2. Once approved, code is merged into `main`.
+3. The `deploy.yml` workflow triggers deployment to EC2.
+4. The app runs on EC2 accessible via public IP.
 
 ## Rollback Instructions
 
-- Use the manual rollback workflow (`rollback.yml`) from GitHub Actions to deploy a previous commit/tag by specifying the version input
-- Alternatively, SSH into the EC2 instance, checkout previous commit, and restart the app service manually
+- Use the **rollback.yml** workflow from GitHub Actions.
+- Manually trigger rollback with a version input (commit SHA or tag).
+- The workflow deploys the selected version and restarts the app on EC2.
+- Alternatively, redeploy previous versions manually via SSH.
+
+---
+
+**Important:** The app runs on a development Flask server for demo purposes only. For production, use a WSGI server like Gunicorn behind Nginx.
