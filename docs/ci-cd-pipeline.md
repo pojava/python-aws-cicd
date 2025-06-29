@@ -1,28 +1,41 @@
 # CI/CD Pipeline Documentation
 
-## Workflow Files
+## Workflow File Purpose
 
-- `test.yml`: Runs tests and linting on each push/pull request
-- `deploy.yml`: Deploys the app to EC2 on push to `main`
-- `rollback.yml` (optional): Manual rollback to a previous commit or tag via workflow dispatch
+- **test.yml**: Runs unit tests and code quality checks (flake8) on every push and pull request.
+- **deploy.yml**: Deploys the application to AWS (e.g., EC2) on successful pushes to the `main` branch.
+- **rollback.yml** (optional): Allows manual rollback to a previous deployment version.
 
-## Triggers
+## Trigger Descriptions
 
-- `test.yml`: on push and pull_request on branches `dev` and `main`
-- `deploy.yml`: on push to `main`
-- `rollback.yml`: manual trigger with input for version to rollback to
+- `test.yml`: triggered on `push` and `pull_request` events.
+- `deploy.yml`: triggered on `push` events to the `main` branch.
+- `rollback.yml`: triggered manually via `workflow_dispatch` with a version input.
 
 ## Secrets Used
 
-- `EC2_HOST`: EC2 public DNS or IP
-- `EC2_USER`: SSH user (e.g., ec2-user)
-- `EC2_SSH_KEY`: Private key for SSH access
+- `AWS_ACCESS_KEY_ID`: AWS access key for deployment.
+- `AWS_SECRET_ACCESS_KEY`: AWS secret key for deployment.
+- (Add any other secrets like SSH keys if used.)
 
 ## Dependency Setup
 
-- Python 3.8 environment created on EC2
-- Dependencies installed from `requirements.txt`
-- Gunicorn used as the production server
+- Python 3.8 is used.
+- Virtual environment is created in the workflow.
+- Required Python packages installed via `pip install -r requirements.txt`.
+- Code quality tools like `flake8` are installed and run as part of tests.
 
 ## Directory Structure
 
+python-aws-cicd/
+├── docs/
+│ ├── ci-cd-pipeline.md
+│ └── deployment-strategy.md
+├── src/
+│ └── app.py
+├── tests/
+│ └── test_app.py
+├── requirements.txt
+├── test.yml
+├── deploy.yml
+└── rollback.yml (optional)
