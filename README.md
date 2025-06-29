@@ -77,12 +77,6 @@ python-aws-cicd/
 
 ---
 
-## Contact
-
-For questions or contributions, please open an issue or pull request.
-
----
-
 ## License
 
 MIT License
