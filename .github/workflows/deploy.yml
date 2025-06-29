@@ -2,7 +2,8 @@ name: Deploy App
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -22,16 +23,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Deploy to EC2 via SSH
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          cd /home/ec2-user/python-aws-cicd
-          git pull origin main
-          source venv/bin/activate || python3 -m venv venv && source venv/bin/activate
-          pip install -r requirements.txt
-          pkill -f app.py || true
-          nohup python3 src/app.py > app.log 2>&1 &
+    - name: Run app (for demonstration)
+      run: |
+        echo "Deployment step: This is where actual deploy logic will go"
+        # Example placeholder only. Replace with actual deploy logic
