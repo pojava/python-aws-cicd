@@ -12,16 +12,16 @@ This project demonstrates a minimal Python Flask web application deployed on AWS
 
 2. Create and activate a virtual environment (using Python 3.8):
 
-   python3.8 -m venv venv
+   python3.8 -m venv venv  
    source venv/bin/activate
 
 3. Install dependencies:
 
    pip install -r requirements.txt
 
-4. Run the app with Gunicorn:
+4. Run the app:
 
-   gunicorn --bind 0.0.0.0:5000 src.app:app
+   python src/app.py
 
 5. Open your browser at http://localhost:5000
 
@@ -29,8 +29,8 @@ This project demonstrates a minimal Python Flask web application deployed on AWS
 
 ## CI/CD Pipeline
 
-- Pushing changes to the `main` branch triggers automatic build, test, and deployment workflows via GitHub Actions.
-- Code quality is enforced with flake8 linting.
+- Pushing changes to the `main` branch triggers automatic build, test, and deployment workflows via GitHub Actions.  
+- Code quality is enforced with flake8 linting.  
 - Deployment targets an AWS EC2 instance via SSH.
 
 ---
@@ -43,37 +43,37 @@ To rollback, redeploy a previous commit by triggering the deployment workflow fo
 
 ## Repository Structure
 
-python-aws-cicd/
-├── .github/
-│   └── workflows/
-│       ├── test.yml
-│       ├── deploy.yml
-│       └── rollback.yml (optional)
-├── docs/
-│   ├── ci-cd-pipeline.md
-│   └── deployment-strategy.md
-├── src/
-│   └── app.py
-├── tests/
-│   └── test_app.py
-├── requirements.txt
-├── README.md
-├── flask-key.pem
-└── .gitignore
+python-aws-cicd/  
+├── .github/  
+│   └── workflows/  
+│       ├── test.yml  
+│       ├── deploy.yml  
+│       └── rollback.yml (optional)  
+├── docs/  
+│   ├── ci-cd-pipeline.md  
+│   └── deployment-strategy.md  
+├── src/  
+│   └── app.py  
+├── tests/  
+│   └── test_app.py  
+├── requirements.txt  
+├── README.md  
+├── flask-key.pem  
+└── .gitignore  
 
 ---
 
 ## Secrets and Environments
 
-- SSH keys and sensitive data are stored securely as GitHub repository secrets.
+- SSH keys and sensitive data are stored securely as GitHub repository secrets.  
 - Environments are configured in GitHub for production and staging.
 
 ---
 
 ## Notes
 
-- The Flask app is minimal and meant as a demonstration.
-- Use production-grade WSGI servers like Gunicorn in production.
+- The Flask app uses the built-in development server and is intended for demonstration only.  
+- For production use, replace with a production-grade WSGI server.  
 - Ensure your AWS security groups allow traffic on the relevant ports (e.g., 5000).
 
 ---
@@ -81,3 +81,9 @@ python-aws-cicd/
 ## Contact
 
 For questions or contributions, please open an issue or pull request.
+
+---
+
+## License
+
+MIT License
