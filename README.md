@@ -58,7 +58,6 @@ python-aws-cicd/
 │   └── test_app.py  
 ├── requirements.txt  
 ├── README.md  
-├── flask-key.pem  
 └── .gitignore  
 
 ---
